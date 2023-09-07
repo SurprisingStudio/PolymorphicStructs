@@ -112,7 +112,7 @@ namespace PolymorphicStructsSourceGenerators
         {
             FileWriter structWriter = new FileWriter();
             // Generate usings
-            GenerateUsingDirectives(structWriter, structDef);
+            GenerateUsingDirectives(structWriter, structDef, individialStructDatas);
 
             structWriter.WriteLine("");
 
@@ -123,7 +123,7 @@ namespace PolymorphicStructsSourceGenerators
                 structWriter.WriteLine($"namespace {structDef.Namespace}");
                 structWriter.BeginScope();
             }
-
+            
             GenerateStructHeader(structWriter, structDef);
             structWriter.BeginScope();
             GenerateTypeEnum(structWriter, individialStructDatas);
@@ -263,11 +263,17 @@ namespace PolymorphicStructsSourceGenerators
             structWriter.WriteLine($"public unsafe partial struct {structDef.MergedStructName} : {structDef.InterfaceName}"); // TODO: how to define custom interfaces it can implement
         }
 
-        private static void GenerateUsingDirectives(FileWriter mergedStructWriter, StructDef structDef)
+        private static void GenerateUsingDirectives(FileWriter mergedStructWriter, StructDef structDef, List<IndividialStructData> individialStructDatas)
         {
             foreach (string u in structDef.UsingDirectives)
             {
                 mergedStructWriter.WriteLine($"using {u};");
+            }
+
+            foreach (var ns in individialStructDatas)
+            {
+                // System.Console.WriteLine($"Generating IndividualStruct {ns.Namespace}");
+                mergedStructWriter.WriteLine($"using {ns.Namespace};");
             }
         }
 
