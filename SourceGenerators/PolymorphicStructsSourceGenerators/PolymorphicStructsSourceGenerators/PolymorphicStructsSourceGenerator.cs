@@ -260,7 +260,7 @@ namespace PolymorphicStructsSourceGenerators
         private void GenerateStructHeader(FileWriter structWriter, StructDef structDef)
         {
             structWriter.WriteLine("[Serializable]");
-            structWriter.WriteLine($"public partial struct {structDef.MergedStructName} : {structDef.InterfaceName}"); // TODO: how to define custom interfaces it can implement
+            structWriter.WriteLine($"public unsafe partial struct {structDef.MergedStructName} : {structDef.InterfaceName}"); // TODO: how to define custom interfaces it can implement
         }
 
         private static void GenerateUsingDirectives(FileWriter mergedStructWriter, StructDef structDef)
